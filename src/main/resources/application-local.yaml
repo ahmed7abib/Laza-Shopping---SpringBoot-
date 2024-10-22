@@ -1,0 +1,26 @@
+server:
+  port: '8080'
+  servlet:
+    context-path: /laza/api/v1
+spring:
+  datasource:
+    username: root
+    password: ''
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/laza_local_db?useSSL=false&serverTimezone=UTC
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: 'true'
+    hibernate:
+      ddl-auto: update
+    show-sql: 'true'
+  application:
+    name: PosSpring
+
+springdoc:
+  swagger-ui:
+    path: v1/api-doc
+  api-docs:
+    path: /v1/api-doc
