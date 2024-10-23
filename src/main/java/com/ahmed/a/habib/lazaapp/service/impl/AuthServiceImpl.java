@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.Optional;
 
 @Service
@@ -34,7 +33,7 @@ public class AuthServiceImpl implements AuthService {
         Optional<UserEntity> userEntity = userRepository.findByEmail(user.getEmail());
 
         if (userEntity.isPresent()) {
-            return buildLoginResponse(1, "This email already exist!", null, null, null);
+            return buildLoginResponse(1, "This email already exist!", null, null);
         } else {
             String notHashedPassword = user.getPassword();
             String hashedPassword = passwordEncoder.encode(user.getPassword());
@@ -59,13 +58,11 @@ public class AuthServiceImpl implements AuthService {
             if (isMatch) {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
                 final String token = jwtService.generateToken(userMapper.toEntity(userDto));
-                final String refreshToken = jwtService.generateRefreshToken(new HashMap<>(), userMapper.toEntity(userDto));
 
                 return buildLoginResponse(
                         0,
                         "Success",
                         token,
-                        refreshToken,
                         userDto
                 );
             } else {
@@ -73,39 +70,38 @@ public class AuthServiceImpl implements AuthService {
                         1,
                         "Incorrect Password!",
                         null,
-                        null,
-                        null);
+                        null
+                );
             }
         } else {
             return buildLoginResponse(1,
                     "Incorrect Email!",
-                    null,
                     null,
                     null
             );
         }
     }
 
-    @Override
-    public AuthResponse refreshToken(String token) {
-        String userEmail = jwtService.extractUserName(token);
-        Optional<UserEntity> user = userRepository.findByEmail(userEmail);
+    //    @Override
+    //    public AuthResponse refreshToken(String token) {
+    //        String userEmail = jwtService.extractUserName(token);
+    //        Optional<UserEntity> user = userRepository.findByEmail(userEmail);
+    //
+    //        if (user.isPresent()) {
+    //            UserDto userDto = userMapper.toDto(user.get());
+    //
+    //            if (jwtService.isTokenValid(token, user.get())) {
+    //                String newToken = jwtService.generateToken(user.get());
+    //                return buildLoginResponse(0, "Refreshed Token", newToken, userDto);
+    //            } else {
+    //                return buildLoginResponse(1, "Invalid Token", null, null);
+    //            }
+    //        } else {
+    //            return buildLoginResponse(1, "User not found", null, null);
+    //        }
+    //    }
 
-        if (user.isPresent()) {
-            UserDto userDto = userMapper.toDto(user.get());
-
-            if (jwtService.isTokenValid(token, user.get())) {
-                String newToken = jwtService.generateToken(user.get());
-                return buildLoginResponse(0, "Refreshed Token", newToken, token, userDto);
-            } else {
-                return buildLoginResponse(1, "Invalid Token", null, null, null);
-            }
-        } else {
-            return buildLoginResponse(1, "User not found", null, null, null);
-        }
-    }
-
-    private AuthResponse buildLoginResponse(int statusCode, String message, String token, String refreshToken, UserDto userDto) {
+    private AuthResponse buildLoginResponse(int statusCode, String message, String token, UserDto userDto) {
         Status status = Status.builder()
                 .statusCode(statusCode)
                 .statusMessage(message)
@@ -114,7 +110,6 @@ public class AuthServiceImpl implements AuthService {
         return AuthResponse.builder()
                 .status(status)
                 .token(token)
-                .refreshToken(refreshToken)
                 .userDto(userDto)
                 .build();
     }

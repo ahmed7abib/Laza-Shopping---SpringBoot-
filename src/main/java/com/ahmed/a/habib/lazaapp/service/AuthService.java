@@ -7,6 +7,4 @@ public interface AuthService {
     AuthResponse registerUser(UserDto user);
 
     AuthResponse loginUser(String email, String password);
-
-    AuthResponse refreshToken(String token);
 }
