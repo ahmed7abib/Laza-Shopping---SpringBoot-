@@ -1,13 +1,12 @@
 package com.ahmed.a.habib.lazaapp.service;
 
 import com.ahmed.a.habib.lazaapp.model.dto.UserDto;
-import com.ahmed.a.habib.lazaapp.model.response.LoginResponse;
-
-import java.util.Optional;
+import com.ahmed.a.habib.lazaapp.model.response.AuthResponse;
 
 public interface AuthService {
+    AuthResponse registerUser(UserDto user);
 
-    Optional<UserDto> registerUser(UserDto user);
+    AuthResponse loginUser(String email, String password);
 
-    LoginResponse loginUser(String email, String password);
+    AuthResponse refreshToken(String token);
 }

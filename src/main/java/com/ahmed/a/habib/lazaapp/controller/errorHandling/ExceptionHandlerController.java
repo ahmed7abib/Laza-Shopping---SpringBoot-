@@ -1,4 +1,4 @@
-package com.ahmed.a.habib.lazaapp.utils.errorHandling;
+package com.ahmed.a.habib.lazaapp.controller.errorHandling;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Advice for all controllers
+ * RestControllerAdvice for applying to all controllers
  */
 @RestControllerAdvice
 public class ExceptionHandlerController {
