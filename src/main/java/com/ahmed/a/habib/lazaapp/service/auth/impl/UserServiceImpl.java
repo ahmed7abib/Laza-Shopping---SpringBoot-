@@ -1,7 +1,7 @@
-package com.ahmed.a.habib.lazaapp.service.impl;
+package com.ahmed.a.habib.lazaapp.service.auth.impl;
 
 import com.ahmed.a.habib.lazaapp.repository.UserRepository;
-import com.ahmed.a.habib.lazaapp.service.UserService;
+import com.ahmed.a.habib.lazaapp.service.auth.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDetailsService userDetailsService() {
         return username -> userRepository
-                .findByEmail(username)
+                .findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }

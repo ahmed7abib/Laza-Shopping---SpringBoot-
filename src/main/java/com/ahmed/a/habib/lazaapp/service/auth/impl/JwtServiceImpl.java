@@ -1,6 +1,6 @@
-package com.ahmed.a.habib.lazaapp.service.impl;
+package com.ahmed.a.habib.lazaapp.service.auth.impl;
 
-import com.ahmed.a.habib.lazaapp.service.JwtService;
+import com.ahmed.a.habib.lazaapp.service.auth.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

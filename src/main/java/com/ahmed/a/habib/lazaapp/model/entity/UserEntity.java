@@ -26,29 +26,18 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
-    @Column(name = "f_name")
-    private String firstName;
-
-    @Column(name = "l_name")
-    private String lastName;
-
-    @Column(name = "password")
-    private String password;
+    @Column(name = "user_name", unique = true)
+    private String username;
 
     @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "role")
-    private Role role;
+    @Column(name = "password")
+    private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
+        return List.of(new SimpleGrantedAuthority(userId.toString()));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.ahmed.a.habib.lazaapp.model.dto;
 
 
-import com.ahmed.a.habib.lazaapp.model.entity.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -15,15 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDto {
 
-    private Role role;
-
     private Integer userId;
 
-    @NotBlank(message = "First name is required!")
-    private String firstName;
-
-    @NotBlank(message = "Last name is required!")
-    private String lastName;
+    @NotBlank(message = "User name is unique and required!")
+    private String username;
 
     @NotBlank(message = "password is required!")
     private String password;

@@ -1,4 +1,4 @@
-package com.ahmed.a.habib.lazaapp.service;
+package com.ahmed.a.habib.lazaapp.service.auth;
 
 
 import org.springframework.security.core.userdetails.UserDetailsService;
