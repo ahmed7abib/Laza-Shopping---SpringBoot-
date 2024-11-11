@@ -5,11 +5,11 @@ import com.ahmed.a.habib.lazaapp.model.response.Status;
 
 public interface OTPService {
 
-    OTPEntity saveOtp(int userId, String otp, boolean status);
-
-    void updateOtpStatus(int otpId, boolean status);
-
     Status sendOtp(String email);
 
     Status confirmOtp(String email, String otp);
+
+    void updateOtpStatus(int otpId, boolean status);
+
+    OTPEntity saveOtp(int userId, String otp, boolean status);
 }
