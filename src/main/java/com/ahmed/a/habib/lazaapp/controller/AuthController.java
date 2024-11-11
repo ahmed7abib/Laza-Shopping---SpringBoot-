@@ -4,6 +4,7 @@ import com.ahmed.a.habib.lazaapp.model.dto.UserDto;
 import com.ahmed.a.habib.lazaapp.model.response.AuthResponse;
 import com.ahmed.a.habib.lazaapp.model.response.Status;
 import com.ahmed.a.habib.lazaapp.service.auth.AuthService;
+import com.ahmed.a.habib.lazaapp.service.auth.OTPService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final OTPService otpService;
     private final AuthService authService;
 
     @GetMapping("login")
@@ -28,8 +30,13 @@ public class AuthController {
         return ResponseEntity.ok(authService.registerUser(userDto));
     }
 
-    @GetMapping("forgetPass")
+    @GetMapping("sendOtp")
     public ResponseEntity<Status> forgetPass(@RequestParam(value = "email") String email) {
-        return ResponseEntity.ok(authService.forgetPass(email));
+        return ResponseEntity.ok(otpService.sendOtp(email));
+    }
+
+    @GetMapping("confirmOtp")
+    public ResponseEntity<Status> confirmOtp(@RequestParam(value = "email") String email, @RequestParam(value = "otp") String otp) {
+        return ResponseEntity.ok(otpService.confirmOtp(email, otp));
     }
 }

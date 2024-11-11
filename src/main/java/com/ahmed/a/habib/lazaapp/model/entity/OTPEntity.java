@@ -24,4 +24,7 @@ public class OTPEntity {
 
     @Column(name = "otp", unique = true)
     private String otp;
+
+    @Column(name = "status")
+    private boolean status;
 }
