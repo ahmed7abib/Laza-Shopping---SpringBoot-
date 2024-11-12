@@ -57,12 +57,12 @@ public class OTPServiceImpl implements OTPService {
 
             if (isConfirmed) {
                 updateOtpStatus(otpEntity.get().getOtpID(), false);
-                return buildStatusResponse(0, "Confirmed otp successfully");
+                return Status.buildStatusResponse(0, "Confirmed otp successfully");
             } else {
-                return buildStatusResponse(1, "Invalid Otp");
+                return Status.buildStatusResponse(1, "Invalid Otp");
             }
         } else {
-            return buildStatusResponse(1, "User is Not Found");
+            return Status.buildStatusResponse(1, "User is Not Found");
         }
     }
 
@@ -81,15 +81,15 @@ public class OTPServiceImpl implements OTPService {
             if (otpEntity != null) {
                 boolean emailSent = sendEmail(otp, email);
                 if (emailSent) {
-                    return buildStatusResponse(0, "Verification code sent to your email successfully.");
+                    return Status.buildStatusResponse(0, "Verification code sent to your email successfully.");
                 } else {
-                    return buildStatusResponse(1, "Error sending otp!");
+                    return Status.buildStatusResponse(1, "Error sending otp!");
                 }
             } else {
-                return buildStatusResponse(1, "Error sending otp!");
+                return Status.buildStatusResponse(1, "Error sending otp!");
             }
         } else {
-            return buildStatusResponse(1, "Email is not found!");
+            return Status.buildStatusResponse(1, "Email is not found!");
         }
     }
 
@@ -100,12 +100,5 @@ public class OTPServiceImpl implements OTPService {
 
     private boolean sendEmail(String otp, String email) {
         return emailService.sendEmail(email, "Password Reset Verification Code", "Your verification code is: " + otp);
-    }
-
-    private Status buildStatusResponse(int statusCode, String message) {
-        return Status.builder()
-                .statusCode(statusCode)
-                .statusMessage(message)
-                .build();
     }
 }

@@ -12,4 +12,11 @@ import lombok.NoArgsConstructor;
 public class Status {
     private int statusCode;
     private String statusMessage;
+
+    public static Status buildStatusResponse(int statusCode, String message) {
+        return Status.builder()
+                .statusCode(statusCode)
+                .statusMessage(message)
+                .build();
+    }
 }

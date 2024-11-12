@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping("register")
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid UserDto userDto) {
-        return ResponseEntity.ok(authService.registerUser(userDto));
+        return ResponseEntity.ok(authService.addUser(userDto));
     }
 
     @GetMapping("sendOtp")
@@ -37,5 +37,10 @@ public class AuthController {
     @GetMapping("confirmOtp")
     public ResponseEntity<Status> confirmOtp(@RequestParam(value = "email") String email, @RequestParam(value = "otp") String otp) {
         return ResponseEntity.ok(otpService.confirmOtp(email, otp));
+    }
+
+    @GetMapping("updatePass")
+    public ResponseEntity<Status> updatePass(@RequestParam(value = "email") String email, @RequestParam(value = "newPass") String newPass) {
+        return ResponseEntity.ok(authService.updatePass(email, newPass));
     }
 }

@@ -27,12 +27,12 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final UserMapper userMapper = UserMapper.INSTANCE;
 
-    public AuthResponse registerUser(UserDto user) {
+    public AuthResponse addUser(UserDto user) {
 
         Optional<UserEntity> userEntity = userRepository.findByUsername(user.getUsername());
 
         if (userEntity.isPresent()) {
-            return buildLoginResponse(1, "This user already exist!", null, null);
+            return AuthResponse.buildAuthResponse(1, "This user already exist!", null, null);
         } else {
             String notHashedPassword = user.getPassword();
             String hashedPassword = passwordEncoder.encode(user.getPassword());
@@ -57,14 +57,14 @@ public class AuthServiceImpl implements AuthService {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
                 final String token = jwtService.generateToken(userMapper.toEntity(userDto));
 
-                return buildLoginResponse(
+                return AuthResponse.buildAuthResponse(
                         0,
                         "Success",
                         token,
                         userDto
                 );
             } else {
-                return buildLoginResponse(
+                return AuthResponse.buildAuthResponse(
                         1,
                         "Incorrect Password!",
                         null,
@@ -72,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
                 );
             }
         } else {
-            return buildLoginResponse(1,
+            return AuthResponse.buildAuthResponse(1,
                     "User is not found!",
                     null,
                     null
@@ -80,16 +80,16 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
-    private AuthResponse buildLoginResponse(int statusCode, String message, String token, UserDto userDto) {
-        Status status = Status.builder()
-                .statusCode(statusCode)
-                .statusMessage(message)
-                .build();
+    @Override
+    public Status updatePass(String email, String newPass) {
+        Optional<UserEntity> userEntity = userRepository.findByEmail(email);
 
-        return AuthResponse.builder()
-                .status(status)
-                .token(token)
-                .userDto(userDto)
-                .build();
+        if (userEntity.isPresent()) {
+            userEntity.get().setPassword(passwordEncoder.encode(newPass));
+            userRepository.save(userEntity.get());
+            return Status.buildStatusResponse(0, "Password updated!");
+        } else {
+            return Status.buildStatusResponse(1, "This user is not found!");
+        }
     }
 }
