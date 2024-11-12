@@ -1,6 +1,7 @@
 package com.ahmed.a.habib.lazaapp.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -34,6 +36,10 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     @Column(name = "password")
     private String password;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OTPEntity> otpList;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

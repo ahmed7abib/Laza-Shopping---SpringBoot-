@@ -92,4 +92,20 @@ public class AuthServiceImpl implements AuthService {
             return Status.buildStatusResponse(1, "This user is not found!");
         }
     }
+
+    @Override
+    public Status removeUser(int id) {
+        try {
+            userRepository.deleteById(id);
+            Optional<UserEntity> userEntity = userRepository.findById(id);
+
+            if (userEntity.isPresent()) {
+                return Status.buildStatusResponse(1, "Cant delete user!");
+            } else {
+                return Status.buildStatusResponse(0, "User removed!");
+            }
+        } catch (Exception exception) {
+            return Status.buildStatusResponse(1, "Error, " + exception.getLocalizedMessage());
+        }
+    }
 }

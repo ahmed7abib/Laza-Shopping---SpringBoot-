@@ -43,4 +43,9 @@ public class AuthController {
     public ResponseEntity<Status> updatePass(@RequestParam(value = "email") String email, @RequestParam(value = "newPass") String newPass) {
         return ResponseEntity.ok(authService.updatePass(email, newPass));
     }
+
+    @GetMapping("removeUser")
+    public ResponseEntity<Status> removeUser(@RequestParam(value = "id") int id) {
+        return ResponseEntity.ok(authService.removeUser(id));
+    }
 }

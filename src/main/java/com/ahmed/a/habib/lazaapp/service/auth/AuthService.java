@@ -11,4 +11,6 @@ public interface AuthService {
     AuthResponse loginUser(String username, String password);
 
     Status updatePass(String email, String newPass);
+
+    Status removeUser(int id);
 }

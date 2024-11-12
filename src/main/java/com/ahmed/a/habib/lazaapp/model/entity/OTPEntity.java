@@ -27,4 +27,8 @@ public class OTPEntity {
 
     @Column(name = "status")
     private boolean status;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
+    private UserEntity user;
 }
