@@ -1,18 +1,16 @@
 package com.ahmed.a.habib.lazaapp.model.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Setter
+@Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "otp")
 @Entity
-public class OTPEntity {
+public class OTPEntity extends BaseEntity {
 
     @Id
     @Column(name = "otp_id")
@@ -28,7 +26,7 @@ public class OTPEntity {
     @Column(name = "status")
     private boolean status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, insertable = false, updatable = false)
     private UserEntity user;
 }

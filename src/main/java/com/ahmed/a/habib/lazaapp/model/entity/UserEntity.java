@@ -3,10 +3,7 @@ package com.ahmed.a.habib.lazaapp.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +12,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
 @Builder
 @Entity
 @Table(name = "user")
@@ -39,7 +37,20 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     @JsonBackReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OTPEntity> otpList;
+    private Set<OTPEntity> otpList;
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ReviewEntity> reviews;
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(
+            name = "favorite_products",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Set<ProductEntity> favoriteProducts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
